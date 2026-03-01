@@ -116,28 +116,41 @@ export function createAsciiAtlas(
   chars: string[],
   charSize: number = 64
 ): WebGLTexture | null {
-  // Draw characters to an offscreen canvas
+  // Draw characters to an offscreen canvas - render at 4x resolution for sharper text
+  const scale = 4;
+  const scaledSize = charSize * scale;
   const canvas = document.createElement("canvas");
-  canvas.width = charSize * chars.length;
-  canvas.height = charSize;
+  canvas.width = scaledSize * chars.length;
+  canvas.height = scaledSize;
 
   const ctx = canvas.getContext("2d");
   if (!ctx) return null;
+
+  // Enable high-quality font rendering
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
 
   // Black background, white text (shader colorizes)
   ctx.fillStyle = "#000";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = "#fff";
-  ctx.font = `${charSize * 0.8}px monospace`;
+  
+  // Use a high-quality font stack
+  ctx.font = `bold ${scaledSize * 0.8}px "SF Mono", "Fira Code", "JetBrains Mono", "Consolas", monospace`;
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
+  
+  // Add slight letter spacing for clarity
+  ctx.letterSpacing = "0px";
 
   // Draw each character centered in its cell
+  ctx.save();
   for (let i = 0; i < chars.length; i++) {
-    const x = i * charSize + charSize / 2;
-    const y = charSize / 2;
+    const x = i * scaledSize + scaledSize / 2;
+    const y = scaledSize / 2;
     ctx.fillText(chars[i], x, y);
   }
+  ctx.restore();
 
   // Upload canvas to GPU
   const texture = gl.createTexture();
@@ -145,10 +158,15 @@ export function createAsciiAtlas(
 
   gl.bindTexture(gl.TEXTURE_2D, texture);
   gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, canvas);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+  
+  // Use LINEAR_MIPMAP_LINEAR for smooth scaling, with anisotropic filtering if available
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  
+  // Generate mipmaps for better quality at different scales
+  gl.generateMipmap(gl.TEXTURE_2D);
 
   return texture;
 }

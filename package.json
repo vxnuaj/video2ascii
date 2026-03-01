@@ -1,12 +1,12 @@
 {
   "name": "video2ascii",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "WebGL-powered video to ASCII converter for React",
-  "author": "Elijah Kurien",
+  "author": "vxnuaj",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/elijah0528/video2ascii"
+    "url": "https://github.com/vxnuaj/video2ascii"
   },
   "keywords": [
     "ascii",
