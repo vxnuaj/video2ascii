@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import type { AsciiContext, UseAsciiAudioOptions } from "@/lib/webgl";
+import type { AsciiContext, UseAsciiAudioOptions } from "../lib/webgl";
 
 export type { UseAsciiAudioOptions };
 

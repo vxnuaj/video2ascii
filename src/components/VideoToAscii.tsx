@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect } from "react";
-import { useVideoToAscii } from "@/hooks/useVideoToAscii";
-import { useAsciiMouseEffect } from "@/hooks/useAsciiMouseEffect";
-import { useAsciiRipple } from "@/hooks/useAsciiRipple";
-import { useAsciiAudio } from "@/hooks/useAsciiAudio";
-import { type VideoToAsciiProps } from "@/lib/webgl";
+import { useVideoToAscii } from "../hooks/useVideoToAscii";
+import { useAsciiMouseEffect } from "../hooks/useAsciiMouseEffect";
+import { useAsciiRipple } from "../hooks/useAsciiRipple";
+import { useAsciiAudio } from "../hooks/useAsciiAudio";
+import { type VideoToAsciiProps } from "../lib/webgl";
 
 export type { VideoToAsciiProps };
 
@@ -13,6 +13,7 @@ export type { VideoToAsciiProps };
 export function Video2Ascii({
   src,
   numColumns,
+  resolution = 8, // Default to 8x resolution for sharp output
   colored = true,
   blend = 0,
   highlight = 0,
@@ -33,6 +34,7 @@ export function Video2Ascii({
   // Core hook handles WebGL setup and rendering
   const ascii = useVideoToAscii({
     numColumns,
+    resolution,
     colored,
     blend,
     highlight,

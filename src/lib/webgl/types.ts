@@ -63,6 +63,7 @@ export interface UseVideoToAsciiOptions {
   charset?: CharsetKey;
   maxWidth?: number;
   numColumns?: number;
+  resolution?: number; // Multiplier for canvas resolution (2 = 2x, 4 = 4x, etc.)
   enableSpacebarToggle?: boolean;
   onStats?: (stats: AsciiStats) => void;
 }
@@ -118,6 +119,7 @@ export interface VideoToAsciiProps {
 
   // Size control
   numColumns?: number;
+  resolution?: number; // Canvas resolution multiplier (2 = 2x, 4 = 4x, etc.)
 
   // Rendering
   colored?: boolean;

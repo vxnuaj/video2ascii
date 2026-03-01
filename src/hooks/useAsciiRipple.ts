@@ -3,7 +3,7 @@ import type {
   AsciiContext,
   UseAsciiRippleOptions,
   RippleHandlers,
-} from "@/lib/webgl";
+} from "../lib/webgl";
 
 export type { UseAsciiRippleOptions, RippleHandlers };
 

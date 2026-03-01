@@ -1,5 +1,5 @@
 import { useRef, useState, useCallback, useEffect, useMemo } from "react";
-import { getCharArray, DEFAULT_CHARSET } from "@/lib/ascii-charsets";
+import { getCharArray, DEFAULT_CHARSET } from "../lib/ascii-charsets";
 import {
   VERTEX_SHADER,
   FRAGMENT_SHADER,
@@ -15,7 +15,7 @@ import {
   type AsciiStats,
   type UniformSetter,
   type UniformLocations,
-} from "@/lib/webgl";
+} from "../lib/webgl";
 
 export type { UseVideoToAsciiOptions, AsciiContext, AsciiStats };
 
@@ -29,6 +29,7 @@ export function useVideoToAscii(
   const {
     fontSize,
     numColumns,
+    resolution = 1, // Default to 1x, can be increased for sharper output
     colored = true,
     blend = 0,
     highlight = 0,
@@ -165,10 +166,10 @@ export function useVideoToAscii(
     );
     setDimensions(grid);
 
-    // Set canvas size
+    // Set canvas size - multiply by resolution for sharper output
     const finalCharWidth = finalFontSize * CHAR_WIDTH_RATIO;
-    const pixelWidth = grid.cols * finalCharWidth;
-    const pixelHeight = grid.rows * finalFontSize;
+    const pixelWidth = grid.cols * finalCharWidth * resolution;
+    const pixelHeight = grid.rows * finalFontSize * resolution;
     canvas.width = pixelWidth;
     canvas.height = pixelHeight;
 
@@ -245,6 +246,7 @@ export function useVideoToAscii(
   }, [
     cols,
     numColumns,
+    resolution,
     calculatedFontSize,
     chars,
     cacheUniformLocations,

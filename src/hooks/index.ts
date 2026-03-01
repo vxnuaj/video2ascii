@@ -18,4 +18,4 @@ export type {
   UseAsciiAudioOptions,
   UniformSetter,
   UniformLocations,
-} from "@/lib/webgl";
+} from "../lib/webgl";

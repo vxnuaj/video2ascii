@@ -116,8 +116,8 @@ export function createAsciiAtlas(
   chars: string[],
   charSize: number = 64
 ): WebGLTexture | null {
-  // Draw characters to an offscreen canvas - render at 4x resolution for sharper text
-  const scale = 4;
+  // Draw characters to an offscreen canvas - render at 8x resolution for MUCH sharper text
+  const scale = 8;
   const scaledSize = charSize * scale;
   const canvas = document.createElement("canvas");
   canvas.width = scaledSize * chars.length;

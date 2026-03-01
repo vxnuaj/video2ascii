@@ -3,7 +3,7 @@ import type {
   AsciiContext,
   UseAsciiMouseEffectOptions,
   MouseEffectHandlers,
-} from "@/lib/webgl";
+} from "../lib/webgl";
 
 export type { UseAsciiMouseEffectOptions, MouseEffectHandlers };
 
